@@ -4,60 +4,20 @@ import streamlit as st
 import requests
 from pulp import *
 
-st.title('Hybrid Threat Monitor')
+st.title('Hybrid Threat Simulator')
 
 st.markdown("""
 This app calculates the optimal strategy based on boundary conditions and a probability assessment of the adversary
 * **Python libraries:** base64, pandas, streamlit, numpy, Pulp
 * **Data source:** (None).
 Todo:
-* Cleaner function for sourcing data (API)
+* Clean function
 """)
 
-
-def extract_data_API():
-    params = {'cc':'27', 'freq':'A', 'px':'HS', 'r':'643' ,'p':'all', 'type':'C',
-              'ps': ','.join(['2016','2017','2018','2019','2020']), 'rg': ','.join(['1','2']) }
-    url = 'http://comtrade.un.org/api/get?parameters'
-    url = 'https://comtrade.un.org/api/get/plus?'
-    un_data = requests.get(url, params=params)
-    result = pd.json_normalize(un_data.json(), "dataset")
-    return result
-
-
-# Extract API
-raw_data = extract_data_API()
-data = data = raw_data[(raw_data['cstDesc']=='TOTAL CPC')& (raw_data['motDesc']=='TOTAL MOT')&(raw_data['pt3ISO']!='W00')&(raw_data['pt3ISO2']=='W00')]
-
-#
-#Sidebar Country
-unique_countries = np.array(sorted(data['pt3ISO'].unique()))
-print(unique_countries)
-selected_countries = ['NLD', 'ESP', 'DEU', 'GBR', 'PRT', 'BEL', 'FRA', 'IRL']
-country = st.sidebar.selectbox('Countries', selected_countries)
-
-# Transform data based on country
-df = data[data['pt3ISO']==country].sort_values(by=['yr'])
-df2 = df.groupby(['rt3ISO','rgDesc'], as_index=False).agg(lambda x: list(x))['TradeValue'].apply(lambda x: pd.Series(x)).transpose()
-df2['year'] = df['yr'].unique()
-df2.set_index('year', inplace=True)
-df2.columns = ['Russian Import', 'Russian Export']
-
-
-st.write("""## Russian Trade Exports to """, country)
-st.subheader("""Mineral fuels, mineral oils and products of their distillation; bituminous substances; mineral waxes""")
-st.bar_chart(df2)
 
 deterrence_measures = ['deterrence by punishment', 'deterrence by threat', 'deterrence by denial','no deterrence measure']
 attack_measures = ['hybrid attack', 'no hybrid attack']
 
-# Download NBA player stats data
-# https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
-def filedownload(df):
-    csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="playerstats.csv">Download CSV File</a>'
-    return href
 
 class LP:
     """
@@ -107,7 +67,6 @@ class LP:
         prob += lpSum([strat[i]  for i in range(len(strat))]) >= 1
         # Solve ILP
         prob.solve()
-        #print(LpStatus[prob.status])
         self.variables = prob.variables()
         return self.variables, value(prob.objective)
 
@@ -128,7 +87,6 @@ class LP:
         prob += lpSum([alp[i]  for i in range(2)]) >= 1
         # Solve ILP
         prob.solve()
-        #print(LpStatus[prob.status])
         self.variables = prob.variables()
         return self.variables, value(prob.objective)
 st.subheader("""Boundary Conditions""")
@@ -143,9 +101,9 @@ st.write("The costs for the deterrence measures are {}, {}, {} and {} respective
 st.subheader("""Possible Pay-offs""")
 st.write("""Possible Pay-offs are the pay-off the adversary gains when committing a hybrid threat relative to what the defender loses. 
             When it is negative, the pay-off is in favor of the adversary. When it is positive, it is in favor of the deterrer.""")
-theta_1 = st.slider("What is the first possible pay-off?",-1000,1000, value= -400, step= 20)  #TODO modify when deterrence measure is determined,
-theta_2 = st.slider("What is the second possible pay-off?",-1000,1000, value= -200, step= 20)  #TODO modify when deterrence measure is determined,
-theta_3 = st.slider("What is the third possible pay-off?",-1000,1000, value= 0, step= 20)  #TODO modify when deterrence measure is determined,
+theta_1 = st.slider("What is the first possible pay-off?",0,1000, value= 400, step= 20)  #TODO modify when deterrence measure is determined,
+theta_2 = st.slider("What is the second possible pay-off?",0,1000, value= 200, step= 20)  #TODO modify when deterrence measure is determined,
+theta_3 = st.slider("What is the third possible pay-off?",0,1000, value= 0, step= 20)  #TODO modify when deterrence measure is determined,
 
 st.subheader("""Conditional Probabilities for Pay-offs""")
 st.write("Probability of each of the pay-off values when deterrer commits to {} and attacker conducts a {}. Pay-offs should sum up to 100%.".format(deterrence_measures[0],attack_measures[0]))
@@ -233,7 +191,7 @@ a_4 = st.slider("How Effective is {}".format(deterrence_measures[3]), 0,100, 60,
 
 
 # Boundary Conditions:
-theta = np.array([theta_1,theta_2,theta_3, 0, 0]) #Pay_off rewards
+theta = np.array([-theta_1,-theta_2,-theta_3, 0, 0]) #Pay_off rewards
 pay_off = np.array([[[w111, w112, w113, 0, 0], [w211, w212, w213, 0, 0], [w311, w312, w313, 0, 0], [w411, w412, w413, 0, 0]],
                     [[w121, w122, w123, 0, 0], [w221, w222, w223, 0, 0], [w321, w322, w323, 0, 0], [w421, w422, w423, 0, 0]]])*0.01 #Pay_off probabilities
 
