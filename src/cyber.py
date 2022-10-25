@@ -12,7 +12,8 @@ def cyber():
      However, the resources for counter hybrid measures are not unlimited. Therefore 
     we would find out the counter hybrid measures that maximizes the total pay-off that includes possible consequences 
     of a hybrid attack under deep uncertainty and potential costs of the corresponding counter hybrid measure. 
-    Please read the context of the scenario. In order to prevent future attacks, we consider the following counter hybrid measures:
+    Please read the context of the scenario and the profiles of the deterrer and the adversary. Provide the input for
+    the model accordingly. In order to prevent future attacks, we consider the following counter hybrid measures:
     """)
     st.markdown("""1) Invest in constituting a clear definition of kinetic cyber attacks. Set and communicate clear red lines to the 
     adversary. (counter hybrid by setting red lines)""")
@@ -56,9 +57,9 @@ def cyber():
      """)
 
     st.markdown("""When constructing potential pay-off, please relativize them to the counter hybrid costs previously determined""")
-    theta_1 = st.slider("What is the first possible pay-off?",-100,100, value= 70, step= 20)
-    theta_2 = st.slider("What is the second possible pay-off?",-100,100, value= 35, step= 20)
-    theta_3 = st.slider("What is the third possible pay-off?",-100,100, value= 0, step= 20)
+    theta_1 = st.slider("What is the first possible pay-off?",-100,100, value= 70, step= 5)
+    theta_2 = st.slider("What is the second possible pay-off?",-100,100, value= 35, step= 5)
+    theta_3 = st.slider("What is the third possible pay-off?",-100,100, value= 0, step= 5)
 
     st.subheader("""Conditional Probabilities for Pay-offs""")
     st.write("""Hybrid conducts entail many uncertain elements. A failure of detection of the hybrid conduct can result

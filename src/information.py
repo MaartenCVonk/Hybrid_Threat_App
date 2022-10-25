@@ -11,7 +11,8 @@ def information():
     st.write("""The goal of the information counter hybrid game is to deter the adversary from meddling in electoral processes.
     However, the resources for counter hybrid measures are not unlimited. Therefore we would like to find out the counter hybrid measures that maximizes 
     the total pay-off that includes possible consequences of a hybrid attack under deep uncertainty and potential costs of the corresponding counter hybrid measure. 
-    Please read the context of the scenario. In order to prevent future attacks, we consider the following counter hybrid measures:
+    Please read the context of the scenario and the profiles of the deterrer and the adversary. Provide the input for
+    the model accordingly. In order to prevent future attacks, we consider the following counter hybrid measures:
     """)
     st.markdown("""1) Setting clear red lines about meddling in elections and threatening to use conventional 
                       measure when overstepped.""")
@@ -58,9 +59,9 @@ def information():
      """)
 
     st.markdown("""When constructing potential pay-off, please relativize them to the counter hybrid costs previously determined""")
-    theta_1 = st.slider("What is the first possible pay-off?",-100,100, value= 70, step= 20)
-    theta_2 = st.slider("What is the second possible pay-off?",-100,100, value= 35, step= 20)
-    theta_3 = st.slider("What is the third possible pay-off?",-100,100, value= 0, step= 20)
+    theta_1 = st.slider("What is the first possible pay-off?",-100,100, value= 70, step= 5)
+    theta_2 = st.slider("What is the second possible pay-off?",-100,100, value= 35, step= 5)
+    theta_3 = st.slider("What is the third possible pay-off?",-100,100, value= 0, step= 5)
 
     st.subheader("""Conditional Probabilities for Pay-offs""")
     st.write("""Hybrid conducts entail many uncertain elements. A failure of detection of the hybrid conduct can result
@@ -91,7 +92,7 @@ def information():
 
     st.write("""_Reasoning default: a cyber attack can be effective as a deterrence measure to show that critical infrastrucure
     can be hit. However, when the adversary is indifferent to this and still conducts an attack, 
-    this has not made the defender more resiliant._
+    this has not made the defender more resilient._
     """)
 
     w211 = st.slider("What is the likelihood of pay-off loss {} when deterrer commits to {} and attacker conducts {}?"
@@ -103,7 +104,7 @@ def information():
 
     st.write("Probability of each of the pay-off values when deterrer commits to {} and attacker conducts {}. Pay-offs should sum up to 100%.".format(counter_hybrid_measures[2],attack_measures[0]))
 
-    st.write("""_Reasoning default: new legislation has made the defender more resiliant to future attempts at meddling 
+    st.write("""_Reasoning default: new legislation has made the defender more resilient to future attempts at meddling 
     in elections by the deterrer. Therefore probability increases that the pay-off will move towards neutral._
     """)
 
