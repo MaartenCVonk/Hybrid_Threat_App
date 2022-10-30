@@ -4,7 +4,7 @@ import src.LP as model
 
 
 def information():
-    counter_hybrid_measures = ['Threaten Political Attribution', 'Media Restrictions',
+    counter_hybrid_measures = ['Threatening with Political Attribution', 'Media Restrictions',
                                'Boosting Cyber Resilience at the Wider Societal Level', 'Proactive Resilience',
                                'Open Deterrence Messaging']
     attack_measures = ['a hybrid attack', 'no hybrid attack']
@@ -14,10 +14,9 @@ def information():
     However, the resources for counter hybrid measures are not unlimited. Therefore 
     we would like to find out the counter hybrid measures that maximizes the total pay-off that includes possible 
     consequences of a hybrid attack under uncertainty and potential costs of the corresponding counter hybrid measure. 
-    Please read the context of the scenario and the profiles of the defender and the adversary. Provide the input for
-    the model accordingly. In order to prevent future attacks, we consider the following deterrence measures:
+    In order to prevent future attacks, we consider the following deterrence measures:
     """)
-    st.markdown("""1) Political Attribution: threaten to full-fledged collectively public attribute. This is intended to exert
+    st.markdown("""1) Threatening with Political Attribution: threaten to attribute publicly and collectively. This is intended to exert
     international pressure, shape public opinion and unlock further multilateral action.""")
     st.markdown("""2) Introduce restrictions on certain media within one’s own territory. Design specific legislation 
     without incurring the risk of undermining your own core values (e.g., freedom of speech and information) """)
@@ -32,49 +31,50 @@ def information():
             """)
 
     st.subheader("""The impact of a the hybrid attack""")
-    st.write("""First we are going to assess the threat of the adversary. Please, carefully read the scenario, profile
-     of the adversary and profile of the defender to assess what are the worst possible impact, the mediocre possible impact,
-     and the best possible impact when the adversary conducts a hybrid threat. Rate the results on a pay-off
-      scale for 0-100""")
+    st.write("""First we are going to assess how damaging the threat of the adversary could be. 
+    Please, carefully read the scenario, profile
+     of the adversary and profile of the defender to assess what are the most damaging impact, the tolerable damaging impact,
+     and the least damaging possible impact when the adversary conducts a hybrid threat. Rate the results on a pay-off
+      scale for 0-100, where 0 is the least damaging impact for the deterring agent and 100 the most damaging impact.""")
 
-    theta_1 = st.slider("What is the worst possible pay-off?", 0, 100, value=100, step=5)
-    theta_2 = st.slider("What is the second possible pay-off?", 0, 100, value=50, step=5)
-    theta_3 = st.slider("What is the third possible pay-off?", 0, 100, value=0, step=5)
+    theta_1 = st.slider("What is the most damaging impact?", 0, 100, value=100, step=5)
+    theta_2 = st.slider("What is the tolerable damaging impact?", 0, 100, value=50, step=5)
+    theta_3 = st.slider("What is the least damaging impact", 0, 100, value=0, step=5)
 
     st.write("""_Reasoning default: When the adversary managed to exploit vulnerabilities that the deterring agent is not
     aware off, the worst possible impact is very bad (100). A hybrid attack can also be effective while still being 
-    detected (50). When the hybrid conduct is not effective at all, the pay-off is 0._
+    detected (50). When the hybrid conduct is not effective at all, damaging impact is not existent (0)._
      """)
 
     st.subheader("""Counter Hybrid Measure Costs""")
     st.markdown("""Each of the counter-hybrid measures described above bring certain costs. These costs include the financial
-    resources needed to boost information resilience or costs of hiring qualified experts. However, the costs also include 
-    political capital for international support, or economic fallback when imposing media restrictions.
-    The only costs that are *NOT* included are costs that come with effectiveness of the counter hybrid measure. Please, 
-    carefully read the scenario, profile of the adversary and profile of the defender to assess costs for each of the 
-    deterrence measures. Please rate the cost from 0-50 and relativize them to impact score above:
-               """)
+       resources needed to boost cyber resilience or costs of hiring qualified experts. However, the costs also include 
+       political capital for international support, or economic fallback when imposing market restrictions.
+       The only costs that are *NOT* included are costs that come with effectiveness of the counter hybrid measure. Please, 
+       carefully read the scenario, profile of the adversary and profile of the defender to assess costs for each of the 
+       deterrence measures. Please rate the cost from 0-100 and relate them to the damaging impact above.
+                  """)
 
-    gamma_1 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[0]), 0, 50, value=5, step=5)
-    gamma_2 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[1]), 0, 50, value=10, step=5)
-    gamma_3 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[2]), 0, 50, value=15, step=5)
-    gamma_4 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[3]), 0, 50, value=10, step=5)
-    gamma_5 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[4]), 0, 50, value=5, step=5)
+    gamma_1 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[0]), 0, 100, value=5, step=5)
+    gamma_2 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[1]), 0, 100, value=5, step=5)
+    gamma_3 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[2]), 0, 100, value=15, step=5)
+    gamma_4 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[3]), 0, 100, value=10, step=5)
+    gamma_5 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[4]), 0, 100, value=15, step=5)
 
     st.write(
         "The costs for the counter hybrid measures are {}, {}, {}, {} and {} respectively.".format(gamma_1, gamma_2,
                                                                                                    gamma_3, gamma_4,
                                                                                                    gamma_5))
 
-    st.subheader("""Conditional Probabilities for Pay-offs""")
+    st.subheader("""Conditional Probabilities for Damaging Impacts""")
     st.write("""Hybrid conducts entail many uncertain elements. A failure of detection of the hybrid conduct can result
      in disastrous effects by letting the adversary commit pursue strategic goals without being aware. Similarly,
      a failure in attribution can result in a lack of success in gaining enough political support to take effective counter-measures.
      Because the nature of a hybrid conduct is to remain under the threshold for detection and attribution and one can never
      be 100% certain that we detect or attribute correctly, the possible outcomes should be modeled probabilistically.
     """)
-    st.write("""For each possible combination of counter-hybrid measure and hybrid conduct we assign probability values to
-    the earlier defined impacts. Note that a probability of 20% means unlikely while 100% means certain, as described in 
+    st.write("""For each counter-hybrid measure and hybrid conduct we assign probability values to
+    the earlier defined impacts. Note that a probability of 0% means impossible while 100% means certain, as described in 
     the probability standards used by intelligence services.
     Please be aware that the total probability of EVERY combination should sum to 100%.  
     """)

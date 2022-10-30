@@ -4,7 +4,7 @@ import src.LP as model
 
 
 def cyber():
-    counter_hybrid_measures = ['Threaten Political Attribution', 'Intelligence Sharing',
+    counter_hybrid_measures = ['Threatening with Political Attribution', 'Intelligence Sharing',
                                'Boosting Cyber Resilience at the Wider Societal Level', 'Covert Economic Penalties',
                                'Market Restrictions']
     attack_measures = ['a hybrid attack', 'no hybrid attack']
@@ -14,37 +14,37 @@ def cyber():
     However, the resources for counter hybrid measures are not unlimited. Therefore 
     we would like to find out the counter hybrid measures that maximizes the total pay-off that includes possible 
     consequences of a hybrid attack under uncertainty and potential costs of the corresponding counter hybrid measure. 
-    Please read the context of the scenario and the profiles of the defender and the adversary. Provide the input for
-    the model accordingly. In order to prevent future attacks, we consider the following to be a deterrence measure:
+    In order to prevent future attacks, we consider the following to be a deterrence measure:
     """)
-    st.markdown("""1) Political Attribution: threaten to full-fledged collectively public attribute. This is intended to exert
+    st.markdown("""1) Threatening with Political Attribution: threaten to attribute publicly and collectively. This is intended to exert
     international pressure, shape public opinion and unlock further multilateral action.""")
-    st.markdown("""2) Active intelligence Sharing: active intelligence sharing is useful for bringing your allies on 
-    board for political, public or other types of collective attribution.""")
-    st.markdown("""3) Boost Cyber Resilience at the Wider Societal Level: Introduce legislation that requires
+    st.markdown("""2) Active Intelligence Sharing: work together with allies to detect and attribute attacks correctly.
+    Share information that mitigate the effects of a possible hybrid conduct.""")
+    st.markdown("""3) Boost Cyber Resilience at the Wider Societal Level: introduce legislation that requires
      individuals and companies to adopt sufficient levels of cyber resilience, based on the specific risk exposure of 
      the subject (e.g., companies operating in critical sectors, companies not operating in critical/essential sectors,
       companies having a significant size or having a significant cross-border activity, etc.)  """)
-    st.markdown("""4) Covert Economic Penalties:  Covert economic penalties, such as a public boycott of a hostile
-     actor's goods can have a significant economic effect and/or send a strong political message. """)
-    st.markdown("""5) Market Restriction :  Introduce legislation to restrict an opponent from accessing your market 
+    st.markdown("""4) Covert Economic Penalties:  these penalties, such as a public boycott of a hostile
+     actor's goods, can have a significant economic effect and/or send a strong political message. """)
+    st.markdown("""5) Market Restriction :  introduce legislation to restrict an opponent from accessing your market 
     in a specific sector (such as ICT).""")
     st.markdown("""For now we assume that each counter-hybrid measure is a deterrence measure.
             """)
 
     st.subheader("""The impact of a the hybrid attack""")
-    st.write("""First we are going to assess the threat of the adversary. Please, carefully read the scenario, profile
-     of the adversary and profile of the defender to assess what are the worst possible impact, the mediocre possible impact,
-     and the best possible impact when the adversary conducts a hybrid threat. Rate the results on a pay-off
-      scale for 0-100""")
+    st.write("""First we are going to assess how damaging the threat of the adversary could be. 
+     Please, carefully read the scenario, profile
+      of the adversary and profile of the defender to assess what are the most damaging impact, the tolerable damaging impact,
+      and the least damaging possible impact when the adversary conducts a hybrid threat. Rate the results on a pay-off
+       scale for 0-100, where 0 is the least damaging impact for the deterring agent and 100 the most damaging impact.""")
 
-    theta_1 = st.slider("What is the worst possible pay-off?", 0, 100, value=100, step=5)
-    theta_2 = st.slider("What is the second possible pay-off?", 0, 100, value=50, step=5)
-    theta_3 = st.slider("What is the third possible pay-off?", 0, 100, value=0, step=5)
+    theta_1 = st.slider("What is the most damaging impact?", 0, 100, value=100, step=5)
+    theta_2 = st.slider("What is the tolerable damaging impact?", 0, 100, value=50, step=5)
+    theta_3 = st.slider("What is the least damaging impact", 0, 100, value=0, step=5)
 
     st.write("""_Reasoning default: When the adversary managed to exploit vulnerabilities that the deterring agent is not
-    aware off, the worst possible impact is very bad (100). A hybrid attack can also be effective while still being 
-    detected (50). When the hybrid conduct is not effective at all, the pay-off is 0._
+    aware off, the most damaging impact is very bad (100). A hybrid attack can also be effective while still being 
+    detected (50). When the hybrid conduct is not effective at all, the damaging impact is 0._
      """)
 
     st.subheader("""Counter Hybrid Measure Costs""")
@@ -53,125 +53,128 @@ def cyber():
     political capital for international support, or economic fallback when imposing market restrictions.
     The only costs that are *NOT* included are costs that come with effectiveness of the counter hybrid measure. Please, 
     carefully read the scenario, profile of the adversary and profile of the defender to assess costs for each of the 
-    deterrence measures. Please rate the cost from 0-50 and relativize them to impact score above:
+    deterrence measures. Please rate the cost from 0-100 and relate them to the damaging impact above.
                """)
-    st.write("""_Reasoning default: threatening with political attribution or sharing intelligence is very cheap as it only
-     requires using diplomatic channels. Boosting cyber resilience requires considerable investments while costs for 
-     covert economic penalties requires investing in public campaigns. Finally, market restrictions also damage the defender's
+
+    gamma_1 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[0]), 0, 100, value=5, step=5)
+    gamma_2 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[1]), 0, 100, value=5, step=5)
+    gamma_3 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[2]), 0, 100, value=15, step=5)
+    gamma_4 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[3]), 0, 100, value=10, step=5)
+    gamma_5 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[4]), 0, 100, value=15, step=5)
+
+    st.write("""_Reasoning default: Threatening with Political Attribution or Sharing Intelligence is very cheap as it only
+     requires using diplomatic channels. Boosting Cyber Resilience requires considerable investments while costs for 
+     Covert Economic Penalties requires investing in public campaigns. Finally, Market Restrictions also damage the defender's
       own economy._
     """)
 
-    gamma_1 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[0]), 0, 50, value=5, step=5)
-    gamma_2 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[1]), 0, 50, value=5, step=5)
-    gamma_3 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[2]), 0, 50, value=15, step=5)
-    gamma_4 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[3]), 0, 50, value=10, step=5)
-    gamma_5 = st.slider("What are my costs for {}?".format(counter_hybrid_measures[4]), 0, 50, value=15, step=5)
+
 
     st.write(
         "The costs for the counter hybrid measures are {}, {}, {}, {} and {} respectively.".format(gamma_1, gamma_2,
                                                                                                    gamma_3, gamma_4,
                                                                                                    gamma_5))
 
-    st.subheader("""Conditional Probabilities for Pay-offs""")
+    st.subheader("""Conditional Probabilities for the Damaging Impacts""")
     st.write("""Hybrid conducts entail many uncertain elements. A failure of detection of the hybrid conduct can result
      in disastrous effects by letting the adversary commit in deep reconnaissance activities without being aware. Similarly,
      a failure in attribution can result in a lack of success in gaining enough political support to take effective counter-measures.
      Because the nature of a hybrid conduct is to remain under the threshold for detection and attribution and one can never
      be 100% certain that we detect or attribute correctly, the possible outcomes should be modeled probabilistically.
     """)
-    st.write("""For each possible combination of counter-hybrid measure and hybrid conduct we assign probability values to
-    the earlier defined impacts. Note that a probability of 20% means unlikely while 100% means certain, as described in 
+    st.write("""For each possible counter-hybrid measure and hybrid conduct we assign probability values to
+    the earlier defined impacts. Note that a probability of 0% means impossible while 100% means certain, as described in 
     the probability standards used by intelligence services.
     Please be aware that the total probability of EVERY combination should sum to 100%.  
     """)
 
-    st.write("""_Reasoning default: when threatening with political attribution for potential attack, 
-    the resilience was not enhanced at any point, leaving the defender as vulnerable as before. ._
-    """)
-
-    w111 = st.slider("What is the probability of the worst possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w111 = st.slider("What is the probability of the most damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_1, counter_hybrid_measures[0], attack_measures[0]), 0, 100, 50, step=10)
-    w112 = st.slider("What is the probability of the mediocre possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w112 = st.slider("What is the probability of the tolerable damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_2, counter_hybrid_measures[0], attack_measures[0]), 0, 100, 50, step=10)
-    w113 = st.slider("What is the probability of a neutral possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w113 = st.slider("What is the probability of the least damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_3, counter_hybrid_measures[0], attack_measures[0]), 0, 100, 0, step=10)
 
+    st.write("""_Reasoning default: when threatening with political attribution for potential attack, 
+    the resilience was not enhanced at any point, leaving the defender as vulnerable as before._
+    """)
+
     st.write(
-        "Probability of each of the pay-off values when deterrer commits to {} and attacker conducts {}. Pay-offs "
+        "Probability of each of the damaging impacts when the deterrer commits to {} and the attacker conducts {}. Proabilities "
         "should sum up to 100%.".format(
             counter_hybrid_measures[1], attack_measures[0]))
 
-    st.write("""_Reasoning default: sharing intelligence can help detecting or attribution potential probabilities and 
-    thereby reducing the effect of bad or worse impacts of the hybrid conduct._
-    """)
-
-    w211 = st.slider("What is the probability of the worst possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w211 = st.slider("What is the probability of the most damaging impact ({}) when the the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_1, counter_hybrid_measures[1], attack_measures[0]), 0, 100, 20, step=10)
-    w212 = st.slider("What is the probability of the mediocre possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w212 = st.slider("What is the probability of the tolerable damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_2, counter_hybrid_measures[1], attack_measures[0]), 0, 100, 50, step=10)
-    w213 = st.slider("What is the probability of a neutral possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w213 = st.slider("What is the probability of the least damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_3, counter_hybrid_measures[1], attack_measures[0]), 0, 100, 30, step=10)
 
+    st.write("""_Reasoning default: sharing intelligence can help detect or attribute potential hybrid conduct and 
+    thereby reducing the probability of damaging impacts of the hybrid conduct._
+    """)
+
     st.write(
-        "Probability of each of the pay-off values when deterrer commits to {} and attacker conducts {}. Pay-offs "
+        "Probability of each of the damaging impacts when the deterrer commits to {} and the attacker conducts {}. Proabilities "
         "should sum up to 100%.".format(
             counter_hybrid_measures[2], attack_measures[0]))
+
+    w311 = st.slider("What is the probability of the most damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_1, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 30, step=10)
+    w312 = st.slider("What is the probability of the tolerable damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_2, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 70, step=10)
+    w313 = st.slider("What is the probability of the least damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_3, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 0, step=10)
 
     st.write("""_Reasoning default: boosting resilience at the wider levels significantly reduced the vulnerabilities to
     a cyber attack and thereby reducing the potential of a bad outcome._
     """)
 
-    w311 = st.slider("What is the probability of the worst possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_1, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 30, step=10)
-    w312 = st.slider("What is the probability of the mediocre possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_2, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 70, step=10)
-    w313 = st.slider("What is the probability of a neutral possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_3, counter_hybrid_measures[2], attack_measures[0]), 0, 100, 0, step=10)
-
     st.write(
-        "Probability of each of the pay-off values when deterrer commits to {} and attacker conducts {}. Pay-offs should sum up to 100%.".format(
+        "Probability of each of the damaging impacts when the deterrer commits to {} and the attacker conducts {}. Proabilities should sum up to 100%.".format(
             counter_hybrid_measures[3], attack_measures[0]))
+
+    w411 = st.slider("What is the probability of the most damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_1, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 50, step=10)
+    w412 = st.slider("What is the probability of the tolerable damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_2, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 50, step=10)
+    w413 = st.slider("What is the probability of the least damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
+                     .format(theta_3, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 0, step=10)
 
     st.write("""_Reasoning default: leading with covert economic penalties may significantly help in deterring, but leaves
     the deterrer as exposed to cyber attacks as before._
     """)
 
-    w411 = st.slider("What is the probability of the worst possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_1, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 50, step=10)
-    w412 = st.slider("What is the probability of the mediocre possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_2, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 50, step=10)
-    w413 = st.slider("What is the probability of a neutral possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
-                     .format(theta_3, counter_hybrid_measures[3], attack_measures[0]), 0, 100, 0, step=10)
-
     st.write(
-        "Probability of each of the pay-off values when deterrer commits to {} and attacker conducts {}. Pay-offs should sum up to 100%.".format(
+        "Probability of each of the damaging impacts when the deterrer commits to {} and the attacker conducts {}. Proabilities should sum up to 100%.".format(
             counter_hybrid_measures[4], attack_measures[0]))
 
-    st.write("""_Reasoning default: Imposing market restrictions poses significant less vulnerabilities to the deterrer as the foreign companies
-    cannot be leverages to do damage to critical infrastructure._
-    """)
-
-    w511 = st.slider("What is the probability of the worst possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w511 = st.slider("What is the probability of the most damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_1, counter_hybrid_measures[4], attack_measures[0]), 0, 100, 20, step=10)
-    w512 = st.slider("What is the probability of the mediocre possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w512 = st.slider("What is the probability of the tolerable damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_2, counter_hybrid_measures[4], attack_measures[0]), 0, 100, 50, step=10)
-    w513 = st.slider("What is the probability of a neutral possible impact {} when deterrer commits to {} and "
-                     "attacker conducts {}? "
+    w513 = st.slider("What is the probability of the least damaging impact ({}) when the deterrer commits to {} and "
+                     "the attacker conducts {}? "
                      .format(theta_3, counter_hybrid_measures[4], attack_measures[0]), 0, 100, 30, step=10)
+
+    st.write("""_Reasoning default: Imposing market restrictions poses significant less vulnerabilities to the deterrer as the foreign companies
+     cannot be leverages to do damage to critical infrastructure._
+     """)
 
     st.subheader("""Probability of succeeding in deterring""")
     st.write("""_For each of the counter hybrid measure taken, we should assess its effectiveness in terms of successfully
