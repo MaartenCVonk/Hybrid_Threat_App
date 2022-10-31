@@ -5,7 +5,7 @@ import src.LP as model
 
 def information():
     counter_hybrid_measures = ['Threatening with Political Attribution', 'Media Restrictions',
-                               'Boosting Cyber Resilience at the Wider Societal Level', 'Proactive Resilience',
+                               'Improve Digital Literacy at the Wider Societal Level', 'Proactive Resilience',
                                'Open Deterrence Messaging']
     attack_measures = ['a hybrid attack', 'no hybrid attack']
 
@@ -16,11 +16,11 @@ def information():
     consequences of a hybrid attack under uncertainty and potential costs of the corresponding counter hybrid measure. 
     In order to prevent future attacks, we consider the following deterrence measures:
     """)
-    st.markdown("""1) Threatening with Political Attribution: threaten to attribute publicly and collectively. This is intended to exert
+    st.markdown("""1) Threatening with political attribution: threaten to attribute publicly and collectively. This is intended to exert
     international pressure, shape public opinion and unlock further multilateral action.""")
     st.markdown("""2) Introduce restrictions on certain media within one’s own territory. Design specific legislation 
      without incurring the risk of undermining your own core values (e.g., freedom of speech and information) """)
-    st.markdown("""3) Boost Cyber Resilience at the Wider Societal Level: In both cyber and information domains, 
+    st.markdown("""3) Improve digital literacy at the broader societal level: In both cyber and information domains, 
      it has become clear that individuals play a central role in achieving resilience.  """)
     st.markdown("""4) Proactive resilience in the information domain. Invest sufficient resources in scanning, 
      verifying and debunking fake news and other information available to domestic audiences  """)
