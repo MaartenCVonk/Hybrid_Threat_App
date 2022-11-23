@@ -14,29 +14,27 @@ class LP:
         Initiate data and logger and validates input
         :data (pd.Dataframe) : to be converted data
         """
-
         self.pay_off, self.pay_off_matrix, self.det_costs, self.att_costs = pay_off, pay_off_matrix, det_costs, att_costs
         self.attlen, self.detlen, self.pay_offlen = self.pay_off_matrix.shape
-        self.det_strat= det_strat if det_strat is not None else None
-        self.att_strat= att_strat if att_strat is not None else None
+        self.det_strat= det_strat if det_strat is not None else np.eye(self.detlen)[0]
+        self.att_strat= att_strat if att_strat is not None else np.eye(self.detlen)
         self.logger = logging.getLogger(__name__)
+        assert np.array_equal(np.sum(self.att_strat, axis=0), np.ones(self.detlen)),\
+            "Probabilities Attack Strategy should sum up to one"
+        assert np.sum(self.det_strat) == 1,\
+            "Probabilities Det Strategy should sum up to one"
+        assert np.array_equal(np.sum(self.pay_off_matrix, axis=2),np.ones([self.attlen, self.detlen])), \
+            "Probabilities Pay-off should sum up to one"
 
-        if self.att_strat is not None:
-          if not np.array_equal(np.sum(self.att_strat, axis=0) ,np.ones(self.detlen)):
-             raise ValueError("Probabilities Attack Strategy should sum up to one")
-        if self.det_strat is not None:
-          if not round(np.sum(self.det_strat, axis=0), digits=4) == 1:
-              raise ValueError("Probabilities Det Strategy should sum up to one")
-        if not np.array_equal(np.sum(self.pay_off_matrix, axis=2) ,np.ones([self.attlen, self.detlen])):
-            raise ValueError("Probabilities Pay-off should sum up to one")
 
     def deterrence_LP(self):
         """
         This solves all the LP steps, prints the problem status and returns the variable results
         """
+
         strat = {}
         for x in range(0, self.detlen):
-          strat[x]= LpVariable(f"d[{x+1}]", lowBound=0, upBound=1, cat="Continuous")
+            strat[x] = LpVariable(f"d[{x+1}]", lowBound=0, upBound=1, cat="Continuous")
         prob = LpProblem("Max pay-off", LpMaximize)
         # Creates the objective function
         prob.setObjective(sum(self.pay_off[y] * self.att_strat[t,x]*self.pay_off_matrix[t,x,y]*strat[x] for y in range(self.pay_offlen)
@@ -55,7 +53,7 @@ class LP:
         """
         alp = {}
         for i in range(self.attlen):
-           alp[i]= LpVariable(f"a[{i+1}]", lowBound=0, upBound=1, cat="Binary")
+            alp[i] = LpVariable(f"a[{i+1}]", lowBound=0, upBound=1, cat="Binary")
         prob = LpProblem("Min pay-off", LpMinimize)
         # Creates the objective function
         prob.setObjective(sum(self.pay_off[y]* alp[i]*self.pay_off_matrix[i,j,y]*self.det_strat[j] for y in range(self.pay_offlen)
